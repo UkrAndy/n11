@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= product.id? 'Редагування товару' : 'Створення товару' %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script>
+      function onFileInput(event, imgSelector = '#imgPreview') {
+        const file = event.target.files[0]
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader()
+          reader.onload = function (e) {
+            const imgElement = document.querySelector(imgSelector)
+            imgElement.src = e.target.result
+          }
+          reader.readAsDataURL(file)
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1><%= product.id? 'Редагування товару' : 'Створення товару' %></h1>
+    <%-include('../components/mainMenu',{activePage:'products'}) %>
+
+    <main>
+      <form
+        action="<%=product.id?`/products/update/${product.id}`:'/products/create'%>"
+        method="post"
+        enctype="multipart/form-data"
+        class="product-form"
+      >
+        <div>
+          <label>
+            Назва товару:
+            <input
+              type="text"
+              name="title"
+              value="<%=product.title  %>"
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Ціна товару:
+            <input
+              type="number"
+              name="price"
+              value="<%=product.price  %>"
+              required
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Зображення товару: <input type="file" name="photo"
+            value="<%=product.photo %>" accept="image/*" <%= product ? '' :
+            'required' %> onchange="onFileInput(event)"/>
+          </label>
+          <img
+            id="imgPreview"
+            src="<%= product && product.photo ? `/${product.photo}` : '/images/photo-not-available.jpg' %>"
+            alt="Product Image Preview"
+            class="prod-image"
+            height="80"
+          />
+        </div>
+        <button><%= product.id? 'Зберегти' : 'Створити'%></button>
+      </form>
+    </main>
+    <%-include('../components/footer') %>
+  </body>
+</html>
