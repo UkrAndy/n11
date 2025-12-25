@@ -8,3 +8,10 @@ export function deleteFile(dirname, fileName) {
     fs.unlinkSync(imgPath)
   }
 }
+
+export function checkExistingDirectory(dirname = 'uploads') {
+  const uploadDir = path.join(__dirname, dirname)
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true })
+  }
+}

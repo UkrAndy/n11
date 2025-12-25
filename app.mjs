@@ -7,8 +7,10 @@ import { fileURLToPath } from 'url'
 import indexRouter from './routes/index.mjs'
 import productsRouter from './routes/productsRouter.mjs'
 import { __dirname } from './settings.mjs'
+import { checkExistingDirectory } from './utils/utils.js'
 
 const app = express()
+checkExistingDirectory()
 // const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
 // const __dirname = path.dirname(__filename) // get the name of the directory
 
